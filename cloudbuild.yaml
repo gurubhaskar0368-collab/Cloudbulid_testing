@@ -1,0 +1,42 @@
+steps:
+  # Step 1: Print Hello World
+  - name: 'ubuntu'
+    entrypoint: 'bash'
+    args:
+      - '-c'
+      - |
+        echo "Hello from Cloud Build"
+        echo "Running sample Linux commands..."
+
+  # Step 2: List files in the workspace
+  - name: 'ubuntu'
+    entrypoint: 'bash'
+    args:
+      - '-c'
+      - |
+        echo "Listing files:"
+        ls -al
+
+  # Step 3: Show current directory & environment variables
+  - name: 'ubuntu'
+    entrypoint: 'bash'
+    args:
+      - '-c'
+      - |
+        echo "Present working directory:"
+        pwd
+        echo "Environment variables:"
+        env
+
+  # Step 4: Create a sample file
+  - name: 'ubuntu'
+    entrypoint: 'bash'
+    args:
+      - '-c'
+      - |
+        echo "Creating sample file..."
+        echo "This is a test file created in Cloud Build" > testfile.txt
+        cat testfile.txt
+
+
+
