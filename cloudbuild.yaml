@@ -37,6 +37,3 @@ steps:
         echo "Creating sample file..."
         echo "This is a test file created in Cloud Build" > testfile.txt
         cat testfile.txt
-
-
-
