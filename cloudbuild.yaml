@@ -1,3 +1,6 @@
+options:
+  logging: CLOUD_LOGGING_ONLY
+  
 steps:
   # Step 1: Print Hello World
   - name: 'ubuntu'
@@ -37,6 +40,3 @@ steps:
         echo "Creating sample file..."
         echo "This is a test file created in Cloud Build" > testfile.txt
         cat testfile.txt
-
-
-
