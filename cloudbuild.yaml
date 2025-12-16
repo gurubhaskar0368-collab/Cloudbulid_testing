@@ -20,3 +20,5 @@ steps:
     args:
       - 'push'
       - '${_REGION}-docker.pkg.dev/${_PROJECT_ID}/${_REPO}/${_IMAGE}:${_TAG}'
+images:
+  - '${_REGION}-docker.pkg.dev/${_PROJECT_ID}/${_REPO}/${_IMAGE}:${_TAG}'
