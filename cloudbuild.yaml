@@ -10,6 +10,7 @@ substitutions:
   _ZONE: us-central1-a
   
 steps:
+  #Build Docker Image
   - name: 'gcr.io/cloud-builders/docker'
     args:
       - 'build'
@@ -17,11 +18,13 @@ steps:
       - '${_REGION}-docker.pkg.dev/${_PROJECT_ID}/${_REPO}/${_IMAGE}:$SHORT_SHA'
       - '.'
       
+  #Push Docker Image into Artifact Registry    
   - name: 'gcr.io/cloud-builders/docker'
     args:
       - 'push'
       - '${_REGION}-docker.pkg.dev/${_PROJECT_ID}/${_REPO}/${_IMAGE}:$SHORT_SHA'
-
+      
+  #Connect to the GKE cluster
   - name: 'gcr.io/google.com/cloudsdktool/cloud-sdk'
     entrypoint: 'bash'
     args:
@@ -30,7 +33,8 @@ steps:
         gcloud container clusters get-credentials ${_CLUSTER} \
           --zone ${_ZONE} \
           --project ${_PROJECT_ID}
-
+          
+  #Replace Image name in deployment yaml file
   - name: 'gcr.io/google.com/cloudsdktool/cloud-sdk'
     entrypoint: 'bash'
     args:
@@ -39,7 +43,8 @@ steps:
         # Replace image placeholder in manifests if needed
         echo "Replacing IMAGE_TAG_PLACEHOLDER with $SHORT_SHA in manifest"
         sed -i "s|IMAGE_PLACEHOLDER|${_REGION}-docker.pkg.dev/${_PROJECT_ID}/${_REPO}/${_IMAGE}:$SHORT_SHA|g" k8s/deployment.yaml
-
+        
+  #Execute deployment and service yaml files on GKE cluster
   - name: 'gcr.io/google.com/cloudsdktool/cloud-sdk'
     entrypoint: 'bash'
     args:
