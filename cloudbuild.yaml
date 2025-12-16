@@ -8,7 +8,7 @@ substitutions:
   _PROJECT_ID: tony-test-gcr-forportal
   _CLUSTER: testing-cluster
   _ZONE: us-central1-a
-  _TAG: 1.0
+  _TAG: '1.0'
   
 steps:
   #Build Docker Image
