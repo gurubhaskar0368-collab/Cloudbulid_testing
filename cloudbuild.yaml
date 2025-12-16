@@ -1,5 +1,5 @@
 options:
-  logging: CLOUD_LOGGING_AND_GCS
+  logging: CLOUD_LOGGING_ONLY
 logsBucket: gs://test-bucket-poc-github
 
 substitutions:
@@ -19,4 +19,4 @@ steps:
   - name: 'gcr.io/cloud-builders/docker'
     args:
       - 'push'
-      - '${_REGION}-docker.pkg.dev/$PROJECT_ID/${_REPO}/${_IMAGE}:${_TAG}'
+      - '${_REGION}-docker.pkg.dev/${_PROJECT_ID}/${_REPO}/${_IMAGE}:${_TAG}'
