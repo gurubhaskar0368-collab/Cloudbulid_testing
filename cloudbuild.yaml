@@ -8,7 +8,9 @@ substitutions:
   _PROJECT_ID: tony-test-gcr-forportal
   _CLUSTER: testing-cluster
   _ZONE: us-central1-a
-  _TAG: '1.0'
+  _BRANCH: main
+  _GITHUB_USER: 'gurubhaskar0368-collab'
+  _GITHUB_USER_EMAIL: 'gurubhaskar0368@gmail.com'
   
 steps:
   #Build Docker Image
@@ -16,14 +18,37 @@ steps:
     args:
       - 'build'
       - '-t'
-      - '${_REGION}-docker.pkg.dev/${_PROJECT_ID}/${_REPO}/${_IMAGE}:${_TAG}'
+      - '${_REGION}-docker.pkg.dev/${_PROJECT_ID}/${_REPO}/${_IMAGE}:$SHORT_SHA'
       - '.'
+
+  # Step 6: Update deployment.yaml and push back to GitHub
+  - name: 'gcr.io/cloud-builders/gcloud'
+    entrypoint: /bin/sh
+    args:
+      - '-c'
+      - |
+        git clone https://${_GITHUB_USER}:${_GIT_ACCESS_TOKEN}@github.com/${_GITHUB_USER}/Cloudbulid_testing -b ${_BRANCH}
+        echo "Updating image tag in deployment.yaml..."
+        cd Cloudbulid_testing
+
+        sed -i "s|IMAGE_TAG_PLACEHOLDER|${_REGION}-docker.pkg.dev/${_PROJECT_ID}/${_REPO}/${_IMAGE}:$SHORT_SHA|g" k8s/deployment.yaml
+
+        git config --global user.name "${_GITHUB_USER}"
+        git config --global user.email "${_GITHUB_USER_EMAIL}"
+        git add k8s/deployment.yaml
+        git commit -m "[Cloud Build] Updated image tag to $SHORT_SHA"
+        git push https://${_GITHUB_USER}:${_GIT_ACCESS_TOKEN}@github.com/${_GITHUB_USER}/Cloudbulid_testing ${_BRANCH}
+
+    availableSecrets:
+      secretManager:
+        - versionName: projects/503811944425/secrets/GIT_ACCESS_TOKEN/versions/latest
+          env: 'GIT_ACCESS_TOKEN'
       
   #Push Docker Image into Artifact Registry    
   - name: 'gcr.io/cloud-builders/docker'
     args:
       - 'push'
-      - '${_REGION}-docker.pkg.dev/${_PROJECT_ID}/${_REPO}/${_IMAGE}:${_TAG}'
+      - '${_REGION}-docker.pkg.dev/${3_PROJECT_ID}/${_REPO}/${_IMAGE}:$SHORT_SHA'
       
   #Connect to the GKE cluster
   - name: 'gcr.io/google.com/cloudsdktool/cloud-sdk'
@@ -35,16 +60,6 @@ steps:
           --zone ${_ZONE} \
           --project ${_PROJECT_ID}
           
-  #Replace Image name in deployment yaml file
-  - name: 'gcr.io/google.com/cloudsdktool/cloud-sdk'
-    entrypoint: 'bash'
-    args:
-      - '-c'
-      - |
-        # Replace image placeholder in manifests if needed
-        echo "Replacing IMAGE_TAG_PLACEHOLDER with ${_TAG} in manifest"
-        sed -i "s|TAG|${_TAG}|g" k8s/deployment.yaml
-        
   #Execute deployment and service yaml files on GKE cluster
   - name: 'gcr.io/google.com/cloudsdktool/cloud-sdk'
     entrypoint: 'bash'
@@ -53,4 +68,4 @@ steps:
       - |
         kubectl apply -f k8s/
 images:
-  - '${_REGION}-docker.pkg.dev/${_PROJECT_ID}/${_REPO}/${_IMAGE}:${_TAG}'
+  - '${_REGION}-docker.pkg.dev/${_PROJECT_ID}/${_REPO}/${_IMAGE}:$SHORT_SHA'
