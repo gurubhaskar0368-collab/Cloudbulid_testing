@@ -16,6 +16,6 @@ spec:
     spec:
       containers:
         - name: my-app
-          image: IMAGE_PLACEHOLDER
+          image: us-central1-docker.pkg.dev/tony-test-gcr-forportal/testing/sample-app:TAG
           ports:
             - containerPort: 80
