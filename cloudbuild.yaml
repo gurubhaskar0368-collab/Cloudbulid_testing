@@ -5,19 +5,47 @@ substitutions:
   _REGION: us-central1
   _REPO: testing
   _IMAGE: sample-app
-  _TAG: latest
   _PROJECT_ID: tony-test-gcr-forportal
+  _CLUSTER: testing-cluster
+  _ZONE: us-central1-a
   
 steps:
   - name: 'gcr.io/cloud-builders/docker'
     args:
       - 'build'
       - '-t'
-      - '${_REGION}-docker.pkg.dev/${_PROJECT_ID}/${_REPO}/${_IMAGE}:${_TAG}'
+      - '${_REGION}-docker.pkg.dev/${_PROJECT_ID}/${_REPO}/${_IMAGE}:$SHORT_SHA'
       - '.'
+      
   - name: 'gcr.io/cloud-builders/docker'
     args:
       - 'push'
-      - '${_REGION}-docker.pkg.dev/${_PROJECT_ID}/${_REPO}/${_IMAGE}:${_TAG}'
+      - '${_REGION}-docker.pkg.dev/${_PROJECT_ID}/${_REPO}/${_IMAGE}:$SHORT_SHA'
+
+  - name: 'gcr.io/google.com/cloudsdktool/cloud-sdk'
+    entrypoint: 'bash'
+    args:
+      - '-c'
+      - |
+        gcloud container clusters get-credentials ${_CLUSTER} \
+          --zone ${_ZONE} \
+          --project ${_PROJECT_ID}
+
+  - name: 'gcr.io/google.com/cloudsdktool/cloud-sdk'
+    entrypoint: 'bash'
+    args:
+      - '-c'
+      - |
+        # Replace image placeholder in manifests if needed
+        echo "Replacing IMAGE_TAG_PLACEHOLDER with $SHORT_SHA in manifest"
+        sed -i "s|IMAGE_TAG_PLACEHOLDER|$SHORT_SHA|g" k8s/deployment.yaml
+
+  - name: 'gcr.io/google.com/cloudsdktool/cloud-sdk'
+    entrypoint: 'bash'
+    args:
+      - '-c'
+      - |
+        kubectl apply -f k8s/
 images:
-  - '${_REGION}-docker.pkg.dev/${_PROJECT_ID}/${_REPO}/${_IMAGE}:${_TAG}'
+  - '${_REGION}-docker.pkg.dev/${_PROJECT_ID}/${_REPO}/${_IMAGE}:$SHORT_SHA'
+/

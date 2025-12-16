@@ -16,6 +16,6 @@ spec:
     spec:
       containers:
         - name: my-app
-          image: nginx:1.25
+          image: ${_REGION}-docker.pkg.dev/${_PROJECT_ID}/${_REPO}/${_IMAGE}:IMAGE_TAG_PLACEHOLDER
           ports:
             - containerPort: 80
