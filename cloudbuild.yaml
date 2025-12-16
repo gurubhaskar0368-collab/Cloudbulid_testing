@@ -38,7 +38,7 @@ steps:
       - |
         # Replace image placeholder in manifests if needed
         echo "Replacing IMAGE_TAG_PLACEHOLDER with $SHORT_SHA in manifest"
-        sed -i "s|IMAGE_TAG_PLACEHOLDER|$SHORT_SHA|g" k8s/deployment.yaml
+        sed -i "s|IMAGE_PLACEHOLDER|${_REGION}-docker.pkg.dev/${_PROJECT_ID}/${_REPO}/${_IMAGE}:$SHORT_SHA|g" k8s/deployment.yaml
 
   - name: 'gcr.io/google.com/cloudsdktool/cloud-sdk'
     entrypoint: 'bash'
