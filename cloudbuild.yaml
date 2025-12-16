@@ -1,5 +1,5 @@
 options:
-  logging: CLOUD_LOGGING_ONLY
+  logging: GCS_ONLY
 logsBucket: gs://test-bucket-poc-github
 
 substitutions:
