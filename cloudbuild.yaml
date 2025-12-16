@@ -53,4 +53,4 @@ steps:
       - |
         kubectl apply -f k8s/
 images:
-  - '${_REGION}-docker.pkg.dev/${_PROJECT_ID}/${_REPO}/${_IMAGE}:${_TAG}''
+  - '${_REGION}-docker.pkg.dev/${_PROJECT_ID}/${_REPO}/${_IMAGE}:${_TAG}'
