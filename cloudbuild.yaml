@@ -38,11 +38,6 @@ steps:
         git add k8s/deployment.yaml
         git commit -m "[Cloud Build] Updated image tag to $SHORT_SHA"
         git push https://${_GITHUB_USER}:${_GIT_ACCESS_TOKEN}@github.com/${_GITHUB_USER}/Cloudbulid_testing ${_BRANCH}
-
-    availableSecrets:
-      secretManager:
-        - versionName: projects/503811944425/secrets/GIT_ACCESS_TOKEN/versions/latest
-          env: 'GIT_ACCESS_TOKEN'
       
   #Push Docker Image into Artifact Registry    
   - name: 'gcr.io/cloud-builders/docker'
@@ -69,3 +64,8 @@ steps:
         kubectl apply -f k8s/
 images:
   - '${_REGION}-docker.pkg.dev/${_PROJECT_ID}/${_REPO}/${_IMAGE}:$SHORT_SHA'
+
+availableSecrets:
+  secretManager:
+    - versionName: projects/503811944425/secrets/GIT_ACCESS_TOKEN/versions/latest
+      env: GIT_ACCESS_TOKEN
