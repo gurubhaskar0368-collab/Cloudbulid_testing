@@ -1,7 +1,3 @@
-options:
-  logging: GCS_ONLY
-logsBucket: gs://test-bucket-poc-github
-
 substitutions:
   _REGION: us-central1
   _REPO: testing
