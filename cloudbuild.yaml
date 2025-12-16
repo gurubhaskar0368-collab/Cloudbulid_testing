@@ -8,6 +8,7 @@ substitutions:
   _PROJECT_ID: tony-test-gcr-forportal
   _CLUSTER: testing-cluster
   _ZONE: us-central1-a
+  _TAG: 1.0
   
 steps:
   #Build Docker Image
@@ -15,14 +16,14 @@ steps:
     args:
       - 'build'
       - '-t'
-      - '${_REGION}-docker.pkg.dev/${_PROJECT_ID}/${_REPO}/${_IMAGE}:$SHORT_SHA'
+      - '${_REGION}-docker.pkg.dev/${_PROJECT_ID}/${_REPO}/${_IMAGE}:${_TAG}'
       - '.'
       
   #Push Docker Image into Artifact Registry    
   - name: 'gcr.io/cloud-builders/docker'
     args:
       - 'push'
-      - '${_REGION}-docker.pkg.dev/${_PROJECT_ID}/${_REPO}/${_IMAGE}:$SHORT_SHA'
+      - '${_REGION}-docker.pkg.dev/${_PROJECT_ID}/${_REPO}/${_IMAGE}:${_TAG}'
       
   #Connect to the GKE cluster
   - name: 'gcr.io/google.com/cloudsdktool/cloud-sdk'
@@ -41,8 +42,8 @@ steps:
       - '-c'
       - |
         # Replace image placeholder in manifests if needed
-        echo "Replacing IMAGE_TAG_PLACEHOLDER with $SHORT_SHA in manifest"
-        sed -i "s|IMAGE_PLACEHOLDER|${_REGION}-docker.pkg.dev/${_PROJECT_ID}/${_REPO}/${_IMAGE}:$SHORT_SHA|g" k8s/deployment.yaml
+        echo "Replacing IMAGE_TAG_PLACEHOLDER with ${_TAG} in manifest"
+        sed -i "s|IMAGE_PLACEHOLDER|${_REGION}-docker.pkg.dev/${_PROJECT_ID}/${_REPO}/${_IMAGE}:${_TAG}|g" k8s/deployment.yaml
         
   #Execute deployment and service yaml files on GKE cluster
   - name: 'gcr.io/google.com/cloudsdktool/cloud-sdk'
@@ -52,4 +53,4 @@ steps:
       - |
         kubectl apply -f k8s/
 images:
-  - '${_REGION}-docker.pkg.dev/${_PROJECT_ID}/${_REPO}/${_IMAGE}:$SHORT_SHA'
+  - '${_REGION}-docker.pkg.dev/${_PROJECT_ID}/${_REPO}/${_IMAGE}:${_TAG}''
