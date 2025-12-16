@@ -9,7 +9,7 @@ substitutions:
   _CLUSTER: testing-cluster
   _ZONE: us-central1-a
   _BRANCH: main
-  _GITHUB_USER: 'gurubhaskar0368-collab'
+  _GITHUB_USER: 'gurubhaskar0368'
   _GITHUB_USER_EMAIL: 'gurubhaskar0368@gmail.com'
   
 steps:
