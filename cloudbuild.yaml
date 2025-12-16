@@ -6,13 +6,13 @@ substitutions:
   _REPO: testing
   _IMAGE: sample-app
   _TAG: latest
-  PROJECT_ID: tony-test-gcr-forportal
+  _PROJECT_ID: tony-test-gcr-forportal
   
 steps:
   - name: 'gcr.io/cloud-builders/docker'
     args:
       - 'build'
       - '-t'
-      - '${_REGION}-docker.pkg.dev/$PROJECT_ID/${_REPO}/${_IMAGE}:${_TAG}'
+      - '${_REGION}-docker.pkg.dev/${_PROJECT_ID}/${_REPO}/${_IMAGE}:${_TAG}'
       - '.'
   
