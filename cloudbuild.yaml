@@ -1,5 +1,6 @@
 options:
-  logging: CLOUD_LOGGING_ONLY
+  logging: CLOUD_LOGGING_AND_GCS
+logsBucket: gs://test-bucket-poc-github
 
 substitutions:
   _REGION: us-central1
