@@ -43,7 +43,7 @@ steps:
       - |
         # Replace image placeholder in manifests if needed
         echo "Replacing IMAGE_TAG_PLACEHOLDER with ${_TAG} in manifest"
-        sed -i "s|IMAGE_PLACEHOLDER|${_REGION}-docker.pkg.dev/${_PROJECT_ID}/${_REPO}/${_IMAGE}:${_TAG}|g" k8s/deployment.yaml
+        sed -i "s|TAG|${_TAG}|g" k8s/deployment.yaml
         
   #Execute deployment and service yaml files on GKE cluster
   - name: 'gcr.io/google.com/cloudsdktool/cloud-sdk'
