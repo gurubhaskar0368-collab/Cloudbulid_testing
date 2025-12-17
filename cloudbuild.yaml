@@ -27,7 +27,7 @@ steps:
     args:
       - '-c'
       - |
-        git clone https://${_GITHUB_USER}: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@github.com/${_GITHUB_USER}/Cloudbulid_testing
+        git clone https://${_GITHUB_USER}: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@github.com/${_GITHUB_USER}/Cloudbulid_testing -b ${_BRANCH}
         echo "Updating image tag in deployment.yaml..."
         cd Cloudbulid_testing
         
@@ -35,7 +35,7 @@ steps:
 
         git add k8s/deployment.yaml
         git commit -m "[Cloud Build] Updated image tag to $SHORT_SHA"
-        git push origin main
+        git push https://${_GITHUB_USER}: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/${_GITHUB_USER}/Cloudbulid_testing ${_BRANCH}
     secretEnv:
       - GIT_ACCESS_TOKEN  
   #Push Docker Image into Artifact Registry    
