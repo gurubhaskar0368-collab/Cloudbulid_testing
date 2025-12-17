@@ -23,23 +23,23 @@ steps:
 
   # Step 6: Update deployment.yaml and push back to GitHub
       - name: gcr.io/cloud-builders/gcloud
-  entrypoint: bash
-  secretEnv:
-    - GIT_ACCESS_TOKEN
-  args:
-    - -c
-    - |
-      git clone https://${_GITHUB_USER}:${GIT_ACCESS_TOKEN}@github.com/${_GITHUB_USER}/Cloudbulid_testing.git
-      cd Cloudbulid_testing
-
-      sed -i "s|IMAGE_TAG_PLACEHOLDER|${_REGION}-docker.pkg.dev/${_PROJECT_ID}/${_REPO}/${_IMAGE}:$SHORT_SHA|g" k8s/deployment.yaml
-
-      git config user.name "${_GITHUB_USER}"
-      git config user.email "${_GITHUB_USER_EMAIL}"
-
-      git add k8s/deployment.yaml
-      git commit -m "[Cloud Build] Update image to $SHORT_SHA" || echo "No changes to commit"
-      git push origin ${_BRANCH}
+        entrypoint: bash
+        secretEnv:
+         - GIT_ACCESS_TOKEN
+        args:
+          - -c
+          - |
+            git clone https://${_GITHUB_USER}:${GIT_ACCESS_TOKEN}@github.com/${_GITHUB_USER}/Cloudbulid_testing.git
+            cd Cloudbulid_testing
+      
+            sed -i "s|IMAGE_TAG_PLACEHOLDER|${_REGION}-docker.pkg.dev/${_PROJECT_ID}/${_REPO}/${_IMAGE}:$SHORT_SHA|g" k8s/deployment.yaml
+      
+            git config user.name "${_GITHUB_USER}"
+            git config user.email "${_GITHUB_USER_EMAIL}"
+      
+            git add k8s/deployment.yaml
+            git commit -m "[Cloud Build] Update image to $SHORT_SHA" || echo "No changes to commit"
+            git push origin ${_BRANCH}
 
   #Push Docker Image into Artifact Registry    
   - name: 'gcr.io/cloud-builders/docker'
