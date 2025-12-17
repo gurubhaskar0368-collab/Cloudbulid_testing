@@ -16,6 +16,6 @@ spec:
     spec:
       containers:
         - name: my-app
-          image: us-central1-docker.pkg.dev/tony-test-gcr-forportal/testing/sample-app:9fd07a8
+          image: us-central1-docker.pkg.dev/tony-test-gcr-forportal/testing/sample-app:b96e52c
           ports:
             - containerPort: 80
