@@ -21,25 +21,34 @@ steps:
       - '${_REGION}-docker.pkg.dev/${_PROJECT_ID}/${_REPO}/${_IMAGE}:$SHORT_SHA'
       - '.'
 
-  # Step 6: Update deployment.yaml and push back to GitHub
-  - name: gcr.io/cloud-builders/gcloud
+  # Clone repo, update deployment.yaml, push back
+  - name: gcr.io/cloud-builders/git
     entrypoint: bash
     args:
       - -c
       - |
+        # Clone repo
         git clone https://github.com/gurubhaskar0368/Cloudbulid_testing.git
         cd Cloudbulid_testing
-        
-        # Configure Git identity
+
+        # Configure Git user
         git config --global user.name "gurubhaskar0368"
         git config --global user.email "gurubhaskar0368@gmail.com"
-        # Replace image placeholder
+
+        # Authenticate using the token from Secret Manager
+        git config --global http.https://github.com/.extraheader \
+          "AUTHORIZATION: basic $(echo -n "gurubhaskar0368:$GIT_ACCESS_TOKEN" | base64)"
+
+        # Update deployment.yaml
         sed -i "s|IMAGE_TAG_PLACEHOLDER|${_REGION}-docker.pkg.dev/${_PROJECT_ID}/${_REPO}/${_IMAGE}:$SHORT_SHA|g" k8s/deployment.yaml
 
         git add k8s/deployment.yaml
         git commit -m "[Cloud Build] Update image to $SHORT_SHA" || echo "No changes to commit"
-        #git push https://x-access-token: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@github.com/gurubhaskar0368/Cloudbulid_testing.git main
-        git push 
+
+        # Push to main branch
+        git push origin main
+    secretEnv:
+      - GIT_ACCESS_TOKEN
 
   #Push Docker Image into Artifact Registry    
   - name: 'gcr.io/cloud-builders/docker'
@@ -66,3 +75,8 @@ steps:
         kubectl apply -f k8s/
 images:
   - '${_REGION}-docker.pkg.dev/${_PROJECT_ID}/${_REPO}/${_IMAGE}:$SHORT_SHA'
+
+availableSecrets:
+  secretManager:
+    - versionName: projects/503811944425/secrets/GIT_ACCESS_TOKEN/versions/latest
+      env: GIT_ACCESS_TOKEN
