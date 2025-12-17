@@ -11,7 +11,6 @@ substitutions:
   _BRANCH: main
   _GITHUB_USER: 'gurubhaskar0368-collab'
   _GITHUB_USER_EMAIL: 'gurubhaskar0368@gmail.com'
-  _GIT_ACCESS_TOKEN: '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'
 
 steps:
   #Build Docker Image
@@ -37,7 +36,7 @@ steps:
 
         # Auth using token without putting it in URL
         git config --global http.https://github.com/.extraheader \
-          "AUTHORIZATION: basic $(echo -n 'gurubhaskar0368-collab:'\"$GIT_ACCESS_TOKEN\" | base64)"
+          "AUTHORIZATION: basic $(echo -n 'gurubhaskar0368-collab:'\"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\" | base64)"
 
         # Replace image placeholder
         sed -i "s|IMAGE_TAG_PLACEHOLDER|${_REGION}-docker.pkg.dev/${_PROJECT_ID}/${_REPO}/${_IMAGE}:$SHORT_SHA|g" k8s/deployment.yaml
