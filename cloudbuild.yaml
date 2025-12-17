@@ -37,7 +37,7 @@ steps:
 
         # Authenticate using the token from Secret Manager
         git config --global http.https://github.com/.extraheader \
-          "AUTHORIZATION: basic $(echo -n "gurubhaskar0368:$GIT_ACCESS_TOKEN" | base64)"
+          "AUTHORIZATION: basic $(echo -n "gurubhaskar0368:${_GIT_ACCESS_TOKEN}" | base64)"
 
         # Update deployment.yaml
         sed -i "s|IMAGE_TAG_PLACEHOLDER|${_REGION}-docker.pkg.dev/${_PROJECT_ID}/${_REPO}/${_IMAGE}:$SHORT_SHA|g" k8s/deployment.yaml
