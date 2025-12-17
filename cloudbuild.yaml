@@ -27,17 +27,25 @@ steps:
     secretEnv:
       - GIT_ACCESS_TOKEN
     args:
-      - '-c'
+      - -c
       - |
         git clone https://github.com/gurubhaskar0368-collab/Cloudbulid_testing.git
         cd Cloudbulid_testing
-        sed -i "s|IMAGE_TAG_PLACEHOLDER|${_REGION}-docker.pkg.dev/${_PROJECT_ID}/${_REPO}/${_IMAGE}:$SHORT_SHA|g" k8s/deployment.yaml
-        git config --global user.email "gurubhaskar0368@gmail.com"
+
+        # Configure Git identity
         git config --global user.name "gurubhaskar0368-collab"
+        git config --global user.email "gurubhaskar0368@gmail.com"
+
+        # Auth using token without putting it in URL
+        git config --global http.https://github.com/.extraheader \
+          "AUTHORIZATION: basic $(echo -n 'gurubhaskar0368-collab:'\"$GIT_ACCESS_TOKEN\" | base64)"
+
+        # Replace image placeholder
+        sed -i "s|IMAGE_TAG_PLACEHOLDER|${_REGION}-docker.pkg.dev/${_PROJECT_ID}/${_REPO}/${_IMAGE}:$SHORT_SHA|g" k8s/deployment.yaml
+
         git add k8s/deployment.yaml
         git commit -m "[Cloud Build] Update image to $SHORT_SHA" || echo "No changes to commit"
-        git push https://gurubhaskar0368-collab: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@github.com/gurubhaskar0368-collab/Cloudbulid_testing.git
-
+        git push origin main
 
   #Push Docker Image into Artifact Registry    
   - name: 'gcr.io/cloud-builders/docker'
