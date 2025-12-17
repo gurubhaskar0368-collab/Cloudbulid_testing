@@ -29,14 +29,15 @@ steps:
       - |
         git clone https://github.com/gurubhaskar0368-collab/Cloudbulid_testing.git
         cd Cloudbulid_testing
-
+        # Force HTTP/1.1
+        git config --global http.version HTTP/1.1
         # Configure Git identity
         git config --global user.name "gurubhaskar0368-collab"
         git config --global user.email "gurubhaskar0368@gmail.com"
 
         # Auth using token without putting it in URL
         git config --global http.https://github.com/.extraheader \
-          "AUTHORIZATION: basic $(echo -n 'gurubhaskar0368-collab:'\"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\" | base64)"
+  "Authorization: Basic $(printf '%s' 'gurubhaskar0368-collab:'\"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\" | base64)"
 
         # Replace image placeholder
         sed -i "s|IMAGE_TAG_PLACEHOLDER|${_REGION}-docker.pkg.dev/${_PROJECT_ID}/${_REPO}/${_IMAGE}:$SHORT_SHA|g" k8s/deployment.yaml
