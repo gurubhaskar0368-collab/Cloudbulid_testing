@@ -30,8 +30,6 @@ steps:
         git clone https://${_GITHUB_USER}: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@github.com/${_GITHUB_USER}/Cloudbulid_testing -b ${_BRANCH}
         echo "Updating image tag in deployment.yaml..."
         cd Cloudbulid_testing
-        ls -l
-        pwd
         
         sed -i "s|IMAGE_TAG_PLACEHOLDER|${_REGION}-docker.pkg.dev/${_PROJECT_ID}/${_REPO}/${_IMAGE}:$SHORT_SHA|g" k8s/deployment.yaml
 
