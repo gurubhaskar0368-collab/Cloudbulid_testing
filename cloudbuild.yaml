@@ -11,6 +11,7 @@ substitutions:
   _BRANCH: main
   _GITHUB_USER: 'gurubhaskar0368-collab'
   _GITHUB_USER_EMAIL: 'gurubhaskar0368@gmail.com'
+  _GIT_ACCESS_TOKEN: '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'
 
 steps:
   #Build Docker Image
@@ -24,8 +25,6 @@ steps:
   # Step 6: Update deployment.yaml and push back to GitHub
   - name: gcr.io/cloud-builders/gcloud
     entrypoint: bash
-    secretEnv:
-      - GIT_ACCESS_TOKEN
     args:
       - -c
       - |
@@ -72,8 +71,3 @@ steps:
         kubectl apply -f k8s/
 images:
   - '${_REGION}-docker.pkg.dev/${_PROJECT_ID}/${_REPO}/${_IMAGE}:$SHORT_SHA'
-
-availableSecrets:
-  secretManager:
-    - versionName: projects/503811944425/secrets/GIT_ACCESS_TOKEN/versions/latest
-      env: GIT_ACCESS_TOKEN
