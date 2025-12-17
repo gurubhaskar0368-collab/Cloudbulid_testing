@@ -9,7 +9,7 @@ substitutions:
   _CLUSTER: testing-cluster
   _ZONE: us-central1-a
   _BRANCH: main
-  _GITHUB_USER: 'gurubhaskar0368'
+  _GITHUB_USER: 'gurubhaskar0368-collab'
   _GITHUB_USER_EMAIL: 'gurubhaskar0368@gmail.com'
 
 steps:
@@ -29,7 +29,7 @@ steps:
       - |
         git clone https://${_GITHUB_USER}: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@github.com/${_GITHUB_USER}/Cloudbulid_testing -b ${_BRANCH}
         echo "Updating image tag in deployment.yaml..."
-        cd Cloudbulid_testing
+        cd to Cloudbulid_testing
         
         sed -i "s|IMAGE_TAG_PLACEHOLDER|${_REGION}-docker.pkg.dev/${_PROJECT_ID}/${_REPO}/${_IMAGE}:$SHORT_SHA|g" k8s/deployment.yaml
 
