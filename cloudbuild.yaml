@@ -27,7 +27,7 @@ steps:
     args:
       - '-c'
       - |
-        git clone https://${_GITHUB_USER}:${GIT_ACCESS_TOKEN}@github.com/${_GITHUB_USER}/Cloudbulid_testing -b ${_BRANCH}
+        git clone https://${_GITHUB_USER}:$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@github.com/${_GITHUB_USER}/Cloudbulid_testing 
         echo "Updating image tag in deployment.yaml..."
         cd Cloudbulid_testing
 
