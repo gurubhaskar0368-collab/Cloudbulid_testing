@@ -41,7 +41,7 @@ steps:
         # Commit and push changes if any
         git add k8s/deployment.yaml
         git commit -m "[Cloud Build] Update image to $SHORT_SHA"
-        git remote set-url origin https://x-access-token:${GIT_ACCESS_TOKEN}@github.com/gurubhaskar0368/Cloudbulid_testing.git
+        git remote set-url origin https://x-access-token:$${GIT_ACCESS_TOKEN}@github.com/gurubhaskar0368/Cloudbulid_testing.git
         git push origin ${_BRANCH}
         
   #Push Docker Image into Artifact Registry    
@@ -73,4 +73,4 @@ images:
 availableSecrets:
   secretManager:
     - versionName: projects/503811944425/secrets/GIT_ACCESS_TOKEN/versions/latest
-      env: 'GIT_ACCESS_TOKEN'
+      env: GIT_ACCESS_TOKEN
