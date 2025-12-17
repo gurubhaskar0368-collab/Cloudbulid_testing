@@ -41,7 +41,7 @@ steps:
         # Commit and push changes if any
         git add k8s/deployment.yaml
         git commit -m "[Cloud Build] Update image to $SHORT_SHA"
-        git push https://${_GIT_ACCESS_TOKEN}@github.com/${_GITHUB_USER}/Cloudbulid_testing.git
+        git push https://${_GITHUB_USER}:${_GIT_ACCESS_TOKEN}@github.com/${_GITHUB_USER}/Cloudbulid_testing.git ${_BRANCH}
 
   #Push Docker Image into Artifact Registry    
   - name: 'gcr.io/cloud-builders/docker'
