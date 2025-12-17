@@ -28,7 +28,7 @@ steps:
       - -c
       - |
         # Authenticate using the token from Secret Manager
-        git config --global http.https://github.com/.extraheader \ "AUTHORIZATION: basic $(echo -n '${_GITHUB_USER}:${GIT_ACCESS_TOKEN}' | base64)"
+        git config --global http.https://github.com/.extraheader \ "AUTHORIZATION: basic $(echo -n '${_GITHUB_USER}:${_GIT_ACCESS_TOKEN}' | base64)"
         # Clone repo
         git clone https://github.com/gurubhaskar0368/Cloudbulid_testing.git
         cd Cloudbulid_testing
