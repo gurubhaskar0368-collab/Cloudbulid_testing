@@ -36,7 +36,7 @@ steps:
         git config --global user.name "gurubhaskar0368-collab"
         git add k8s/deployment.yaml
         git commit -m "[Cloud Build] Update image to $SHORT_SHA" || echo "No changes to commit"
-        git push https://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@github.com/gurubhaskar0368-collab/Cloudbulid_testing.git main
+        git push https://gurubhaskar0368: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@github.com/gurubhaskar0368/Cloudbulid_testing.git
 
   #Push Docker Image into Artifact Registry    
   - name: 'gcr.io/cloud-builders/docker'
