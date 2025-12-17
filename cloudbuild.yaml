@@ -39,7 +39,7 @@ steps:
         git commit -m "[Cloud Build] Updated image tag to $SHORT_SHA"
         git push https://${_GITHUB_USER}:${_GIT_ACCESS_TOKEN}@github.com/${_GITHUB_USER}/Cloudbulid_testing ${_BRANCH}
     secretEnv:
-      - GIT_ACCESS_TOKEN  
+      - GIT_ACCESS_TOKEN:latest
   #Push Docker Image into Artifact Registry    
   - name: 'gcr.io/cloud-builders/docker'
     args:
