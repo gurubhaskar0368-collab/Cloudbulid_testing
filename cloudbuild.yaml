@@ -30,7 +30,8 @@ steps:
         set -e
 
         # Configure Git authentication using the token (no username/password in URL)
-        git config --global http.https://github.com/.extraheader \ "AUTHORIZATION: basic $(echo -n '${_GITHUB_USER}:${_GIT_ACCESS_TOKEN}' | base64)"
+        git config --global http.https://github.com/.extraheader \
+        "Authorization: Basic $(echo -n "${_GITHUB_USER}:${_GIT_ACCESS_TOKEN}" | base64)"
         # Clone the repo
         git clone https://github.com/${_GITHUB_USER}/Cloudbulid_testing.git
         cd Cloudbulid_testing
