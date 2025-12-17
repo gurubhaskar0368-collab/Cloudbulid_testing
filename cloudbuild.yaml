@@ -67,4 +67,4 @@ images:
 availableSecrets:
   secretManager:
     - versionName: projects/503811944425/secrets/GIT_ACCESS_TOKEN/versions/latest
-      env: GIT_ACCESS_TOKEN
+      env: 'GIT_ACCESS_TOKEN'
