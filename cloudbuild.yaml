@@ -32,6 +32,8 @@ steps:
         git clone https://github.com/gurubhaskar0368-collab/Cloudbulid_testing.git
         cd Cloudbulid_testing
         sed -i "s|IMAGE_TAG_PLACEHOLDER|${_REGION}-docker.pkg.dev/${_PROJECT_ID}/${_REPO}/${_IMAGE}:$SHORT_SHA|g" k8s/deployment.yaml
+        git config --global user.email "gurubhaskar0368@gmail.com"
+        git config --global user.name "gurubhaskar0368-collab"
         git add k8s/deployment.yaml
         git commit -m "[Cloud Build] Update image to $SHORT_SHA" || echo "No changes to commit"
         git push https://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@github.com/gurubhaskar0368-collab/Cloudbulid_testing.git main
