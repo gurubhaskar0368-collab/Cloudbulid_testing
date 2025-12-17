@@ -25,9 +25,9 @@ steps:
       - name: gcr.io/cloud-builders/gcloud
         entrypoint: bash
         secretEnv:
-         - GIT_ACCESS_TOKEN
+          - GIT_ACCESS_TOKEN
         args:
-          - -c
+          - '-c'
           - |
             git clone https://${_GITHUB_USER}:${GIT_ACCESS_TOKEN}@github.com/${_GITHUB_USER}/Cloudbulid_testing.git
             cd Cloudbulid_testing
