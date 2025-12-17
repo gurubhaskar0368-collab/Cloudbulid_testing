@@ -34,10 +34,9 @@ steps:
         # Configure Git identity
         git config --global user.name "gurubhaskar0368-collab"
         git config --global user.email "gurubhaskar0368@gmail.com"
-
-        # Auth using token without putting it in URL
+        # Configure git to use the token
         git config --global http.https://github.com/.extraheader \
-        "Authorization: Basic $(printf '%s' 'gurubhaskar0368-collab:'\"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\" | base64)"
+          "AUTHORIZATION: basic $(echo -n 'gurubhaskar0368-collab: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' | base64)"
 
         # Replace image placeholder
         sed -i "s|IMAGE_TAG_PLACEHOLDER|${_REGION}-docker.pkg.dev/${_PROJECT_ID}/${_REPO}/${_IMAGE}:$SHORT_SHA|g" k8s/deployment.yaml
