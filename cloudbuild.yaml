@@ -36,7 +36,7 @@ steps:
         git config user.email "${_GITHUB_USER_EMAIL}"
 
         # Replace image tag in deployment.yaml
-        sed -i "s|image: .*|image: ${_REGION}-docker.pkg.dev/${_PROJECT_ID}/${_REPO}/${_IMAGE}:$SHORT_SHA|g" k8s/deployment.yaml
+        #sed -i "s|image: .*|image: ${_REGION}-docker.pkg.dev/${_PROJECT_ID}/${_REPO}/${_IMAGE}:$SHORT_SHA|g" k8s/deployment.yaml
         # Commit and push changes if any
         git add k8s/deployment.yaml
         git commit -m "[Cloud Build] Update image to $SHORT_SHA"
