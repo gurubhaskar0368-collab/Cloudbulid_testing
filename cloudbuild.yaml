@@ -21,7 +21,7 @@ steps:
       - '${_REGION}-docker.pkg.dev/${_PROJECT_ID}/${_REPO}/${_IMAGE}:$SHORT_SHA'
       - '.'
 
-  # Step 6: Update deployment.yaml and push back to GitHub
+  # Step 1: Update deployment.yaml and push back to GitHub
   - name: 'gcr.io/cloud-builders/gcloud'
     entrypoint: /bin/sh
     args:
