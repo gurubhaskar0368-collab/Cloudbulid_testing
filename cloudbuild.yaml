@@ -30,7 +30,7 @@ steps:
         set -e       
         git clone https://github.com/${_GITHUB_USER}/Cloudbulid_testing.git
         cd Cloudbulid_testing
-
+        
         # Configure Git identity
         git config user.name "${_GITHUB_USER}"
         git config user.email "${_GITHUB_USER_EMAIL}"
