@@ -20,7 +20,7 @@ steps:
       - '-t'
       - '${_REGION}-docker.pkg.dev/${_PROJECT_ID}/${_REPO}/${_IMAGE}:$SHORT_SHA'
       - '.'
-
+      
   - name: 'gcr.io/cloud-builders/gcloud'
     entrypoint: 'bash'
     secretEnv: ['GIT_ACCESS_TOKEN']
