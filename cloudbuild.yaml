@@ -67,6 +67,7 @@ steps:
       - '-c'
       - |
         kubectl apply -f k8s/
+      
 images:
   - '${_REGION}-docker.pkg.dev/${_PROJECT_ID}/${_REPO}/${_IMAGE}:$SHORT_SHA'
   
